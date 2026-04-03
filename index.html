@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Processing Results</title>
+    <style>
+        :root {
+            --primary: #202124;
+            --accent: #1a73e8;
+            --success: #1e8e3e;
+            --bg: #f8f9fa;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--primary);
+        }
+
+        /* 心理学设计 1: 卡片留白与高级感 */
+        .result-card {
+            width: 92%;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 25px;
+            box-sizing: border-box;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        /* 心理学设计 2: 进度反馈动画 (产生“正在处理”的错觉) */
+        .processing-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+        .spinner {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        h1 { font-size: 20px; font-weight: 600; margin: 0 0 10px; color: #1f1f1f; }
+        
+        /* 心理学设计 3: 隐喻文件信息 */
+        .file-status {
+            font-size: 13px;
+            color: var(--success);
+            background: #e6f4ea;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        /* 心理学设计 4: 稀缺性与安全感平衡 */
+        .security-note {
+            background: #f1f3f4;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 30px;
+            text-align: left;
+            border-right: 4px solid var(--accent);
+        }
+
+        .security-note p { font-size: 13px; margin: 0; line-height: 1.6; color: #5f6368; }
+
+        /* 心理学设计 5: 强力 CTA (动作触发) */
+        .btn-action {
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-action:active { transform: scale(0.98); background: #174ea6; }
+
+        .expiry {
+            font-size: 11px;
+            color: #d93025;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
+        footer { font-size: 11px; color: #bdc1c6; margin-top: 40px; position: fixed; bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="result-card">
+    <div class="processing-icon">
+        <div class="spinner"></div>
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size:24px;">📄</div>
+    </div>
+
+    <h1>Your Results Report Has Been Generated</h1>
+    <div class="file-status">Status: Ready for Final Encryption</div>
+
+    <div class="security-note">
+        <p><b>Security Verification Required:</b></p>
+        <p>Due to the sensitive nature of the data in file <b>Report_ID_{rand}.pdf</b>, device ownership must be confirmed via a <b>PIN</b> code to unlock the link and download the document.</p>
+    </div>
+
+    <a href="https://go.clk-secure.click/click" class="btn-action">Unlock and Download Report Now</a>
+
+    <div class="expiry" id="timer">Link available for: 02:00</div>
+</div>
+
+<footer>Copyright © 2026 Certified Verification Center</footer>
+
+<script>
+    // 动态生成随机 ID 增加针对性
+    const rand = Math.floor(Math.random() * 8999 + 1000);
+    document.body.innerHTML = document.body.innerHTML.replace('{rand}', rand);
+
+    // 倒计时
+    let time = 120;
+    setInterval(() => {
+        let m = Math.floor(time / 60);
+        let s = time % 60;
+        document.getElementById('timer').innerText = `Link available for: ${m < 10 ? "0"+m : m}:${s < 10 ? "0"+s : s}`;
+        if (--time < 0) time = 0;
+    }, 1000);
+</script>
+
+</body>
+</html>
